@@ -1,0 +1,6 @@
+1.2 depants if it's for the current implamation of stockserver or the updated one (the version of stockserver that includes set/update)
+if it's for the original stockserver then immutable is better because the server only allows reading of it and there's nothing that can change , the data is static
+but if we talking about the later version of stockserver with the update function then it's to sync the critical parts of the server (which would be the read funcions of the price and the update price)
+so for option A would be the best for the original stockserver
+
+1.4 as per my past respone with the updater it's better to use sync as it allows as to update the prices and wont make one of the prices to get lost in one of the readings

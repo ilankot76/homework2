@@ -13,8 +13,22 @@ public class StockServer {
 		APPLE,
 		GOOGLE
 	}	
-	
-	public int GetStock(Stock stock) {
+	 public synchronized void updatestock(Stock stock, int Value) {
+	    switch(stock) {
+	        case MICROSOFT:
+	            microsoftValue=Value;
+	            break;
+	        case APPLE:
+	            appleValue = Value;
+	            break;
+	        case GOOGLE:
+	            googleValue = Value;
+	            break;
+	        default:
+	            throw new InvalidParameterException("no such stock type");
+	    }
+	}
+	public synchronized int GetStock(Stock stock) {
 		switch(stock) {
 		case MICROSOFT:
 			return microsoftValue;
