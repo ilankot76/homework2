@@ -16,8 +16,9 @@ public  stockViewer(String name, StockServer.Stock ID){
         System.out.println("Stock Viewer is running.");
         for(int i=0; i<10; i++) {
             System.out.println("Name: " + name + ", "+ "Stock ID: " + ID + ", " + "Stock Value: " + new StockServer().GetStock(ID));
+            int temp= 1000 + new Random().nextInt(2000);
              try {
-           Thread.sleep(1000 + new Random().nextInt(2000));
+           Thread.sleep(temp);
               } catch (InterruptedException e) {
                 e.printStackTrace();
               }
