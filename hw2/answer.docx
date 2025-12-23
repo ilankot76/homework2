@@ -12,4 +12,40 @@ what happened is that after the first line(runner 4 ran 100 meters) the thread's
 away and then given to runner 3 which ran 1 more meter and then again JVM did a context switch
 and gave cpu time to runner's 4 thread which allowed him to output his place 
 
-2.1b
+2.1b yes such situation can accure indeed, and it can happen when runner 4 got to 100 meters which 
+will mean he finished and before he will managed to tell the track that he finished and what's his place
+his cpu time will be taken away and be given to runner's 3 thread which will allow him to finish the race and tell the system that he finished before
+runner 4 managed to tell so according to the jvm runner 3 came first when in reality it was runner 4
+and it can be even worse when runner 4 finished but then cpu was given to runner 3 and finished but then again given to runner 2 and he finished and 
+also manged to report he finished so he will be proclamied first even though he came third
+
+2.2 no, higher prioroity doesnt gurantree higher speed 
+all it means is that it will try to give it more cpu time 
+but keyword is try and not will
+
+3.a there's inheretance from thread
+    and Runnable
+
+    let's starts with thread, we make out class as a child of the class thread so it will look something like
+    class racer exteands thread, which means we are a child of a class thread and then we implemant in our code run()
+    and just use racer().start new()
+    pros: easy to use and setup
+    cons: because it make us as a child of the class thread it will block us from resuing the class again through inheretance
+    which make it less reusable and less flexable
+
+
+    Runnable we make a class as we would always do but we use implemant which will make it look like
+    class racer implements runnable, and then we also add a run() method 
+    and in our main we declare our class like we would always do and then to make it run on a thread we will do
+    Thread t1 = new Thread(racer)
+
+    pros: more flexable as it still allows us to use inheretance and to reuse the class 
+    also easy separation so we can choose who runs the thread and make it to runs on few different threads at the same time
+
+    cons: more overhead as it require us to create a thread object to run it
+
+
+    3.b When a class implements Runnable, it does not represent a thread.
+It only represents the code that should run only the Thread class can create a new thread
+call start() therefore, to run a Runnable in a new thread, we must create a Runnable object
+pass it to a Thread object call start() on the Thread
