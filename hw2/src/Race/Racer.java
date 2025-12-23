@@ -27,32 +27,29 @@ public class Racer implements Runnable {
         go();
     }
 
-    public void go() {
-        Thread.currentThread().setPriority(this.speed);
+   public void go() {
+    Thread.currentThread().setPriority(this.speed);
 
-        for (int i = 0; i <= 100; i++) {
-            System.out.println("Runner " + id + " ran " + i + " meters");
-        }
-        synchronized (track) {
-            switch (track.finishedRacers) {
-                case 1:
+    for (int i = 1; i <= 100; i++) {
+        System.out.println("Runner " + id + " ran " + i + " meters");
+
+        if (i == 100) {
+            synchronized (track) {
+                track.finishedRacers++;          // increment first
+                int place = track.finishedRacers;
+
+                if (place == 1) {
                     System.out.println("Runner " + id + " finished 1st!");
-                    track.finishedRacers++;
-                    break;
-                case 2:
+                } else if (place == 2) {
                     System.out.println("Runner " + id + " finished 2nd!");
-                    track.finishedRacers++;
-                    break;
-                case 3:
+                } else if (place == 3) {
                     System.out.println("Runner " + id + " finished 3rd!");
-                    track.finishedRacers++;
-                    break;
-
-                default:
-                    System.out.println("Runner " + id + " finished " + (track.finishedRacers + 1) + "th!");
-                    track.finishedRacers++;
-                    break;
+                } else {
+                    System.out.println("Runner " + id + " finished " + place + "th!");
+                }
             }
         }
     }
+}
+
 }
