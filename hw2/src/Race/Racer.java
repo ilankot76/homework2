@@ -31,7 +31,7 @@ public class Racer implements Runnable {
     public synchronized void go() {
         Thread.currentThread().setPriority(speed);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i <= 100; i++) {
             System.out.println("Runner " + id + " ran " + i + " meters");
         }
         switch (track.finishedRacers) {
