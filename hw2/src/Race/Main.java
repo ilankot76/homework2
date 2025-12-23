@@ -2,7 +2,7 @@ package Race;
 
 public class Main {
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		Track track = new Track();
 		Racer racer1 = new Racer(10, track);
 		Racer racer2 = new Racer(2, track);

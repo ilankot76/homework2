@@ -1,5 +1,7 @@
 package Race;
 
+import java.util.Scanner;
+
 public class Racer implements Runnable {
 
     static private int globalid = 1;
@@ -11,19 +13,14 @@ public class Racer implements Runnable {
 
         this.track = track;
         this.id = globalid++;
-        if (speed >= 1 && speed <= 10) {
-            this.speed = speed;
-        } else {
-            while (true) {
-                System.out.println("Invalid speed for racer " + id + ". Please enter a speed between 1 and 10:");
-                if (speed < 1 && speed > 10) {
-                    this.speed = speed;
-                    break;
-                } else {
-                }
-            }
-        }
+        Scanner scanner = new Scanner(System.in);
 
+        while (speed < 1 || speed > 10) {
+            System.out.println("Invalid speed for racer " + id + ". Please enter a speed between 1 and 10:");
+            speed = scanner.nextInt();
+        }
+        this.speed = speed;
+        scanner.close();
     }
 
     @Override
@@ -38,22 +35,22 @@ public class Racer implements Runnable {
             System.out.println("Runner " + id + " ran " + i + " meters");
         }
         switch (track.finishedRacers) {
-            case 0:
+            case 1:
                 System.out.println("Runner " + id + " finished 1st!");
                 track.finishedRacers++;
                 break;
-            case 1:
+            case 2:
                 System.out.println("Runner " + id + " finished 2nd!");
                 track.finishedRacers++;
                 break;
-            case 2:
+            case 3:
                 System.out.println("Runner " + id + " finished 3rd!");
                 track.finishedRacers++;
                 break;
 
             default:
                 System.out.println("Runner " + id + " finished " + (track.finishedRacers + 1) + "th!");
-
+                track.finishedRacers++;
                 break;
         }
     }
