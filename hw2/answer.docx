@@ -4,3 +4,12 @@ but if we talking about the later version of stockserver with the update functio
 so for option A would be the best for the original stockserver
 
 1.4 as per my past respone with the updater it's better to use sync as it allows as to update the prices and wont make one of the prices to get lost in one of the readings
+
+
+
+2.1a this situation is called thread interleaving and it's happens because of context switching
+what happened is that after the first line(runner 4 ran 100 meters) the thread's of runner 4 got his cpu powers
+away and then given to runner 3 which ran 1 more meter and then again JVM did a context switch
+and gave cpu time to runner's 4 thread which allowed him to output his place 
+
+2.1b
