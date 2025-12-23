@@ -20,7 +20,6 @@ public class Racer implements Runnable {
             speed = scanner.nextInt();
         }
         this.speed = speed;
-        scanner.close();
     }
 
     @Override
@@ -28,30 +27,32 @@ public class Racer implements Runnable {
         go();
     }
 
-    public synchronized void go() {
-        Thread.currentThread().setPriority(speed);
+    public void go() {
+        Thread.currentThread().setPriority(this.speed);
 
         for (int i = 0; i <= 100; i++) {
             System.out.println("Runner " + id + " ran " + i + " meters");
         }
-        switch (track.finishedRacers) {
-            case 1:
-                System.out.println("Runner " + id + " finished 1st!");
-                track.finishedRacers++;
-                break;
-            case 2:
-                System.out.println("Runner " + id + " finished 2nd!");
-                track.finishedRacers++;
-                break;
-            case 3:
-                System.out.println("Runner " + id + " finished 3rd!");
-                track.finishedRacers++;
-                break;
+        synchronized (track) {
+            switch (track.finishedRacers) {
+                case 1:
+                    System.out.println("Runner " + id + " finished 1st!");
+                    track.finishedRacers++;
+                    break;
+                case 2:
+                    System.out.println("Runner " + id + " finished 2nd!");
+                    track.finishedRacers++;
+                    break;
+                case 3:
+                    System.out.println("Runner " + id + " finished 3rd!");
+                    track.finishedRacers++;
+                    break;
 
-            default:
-                System.out.println("Runner " + id + " finished " + (track.finishedRacers + 1) + "th!");
-                track.finishedRacers++;
-                break;
+                default:
+                    System.out.println("Runner " + id + " finished " + (track.finishedRacers + 1) + "th!");
+                    track.finishedRacers++;
+                    break;
+            }
         }
     }
 }

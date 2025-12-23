@@ -2,6 +2,6 @@ package Race;
 
 public class Track {
 
-    public int finishedRacers;
+    public int finishedRacers = 0;
 
 }
