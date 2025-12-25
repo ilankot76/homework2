@@ -2,44 +2,139 @@ package GameXO;
 
 import java.util.Arrays;
 
-public class Game implements Runnable {
+public class Game  {
     char board[][] = new char[5][5];
     private Player playerturn;
     private Player X;
     private Player O;
 
-
-    public Game(){
+    public void startGameWithAI(Player X, Player O){
+        this.X = X;
+        this.O = O;
+        this.playerturn = X;
+        Thread playerXThread = new Thread(X);
+        Thread playerOThread = new Thread(O);
         for (int i = 0; i < 5; i++) 
-     Arrays.fill(board[i], ' ');
+        Arrays.fill(board[i], ' ');
+        int turns = 0;
 
 
-
-     
-    
-    }
-
-    @Override
-    public void run() {
         while (true) {
-            printBoard();
             double[] freeCells = getFreeCells();
             if (freeCells.length == 0) {
                 System.out.println("Draw!");
                 break;
             }
-            // Here you would typically get the move from the current player
-            // For demonstration, we'll just pick the first free cell
-            double move = freeCells[0];
-            int row = (int) move;
-            int col = (int) ((move - row) * 10);
-            board[row][col] = (playerturn == X) ? 'X' : 'O';
-            // Switch turns
+            if (Checkwin()) {
+                System.out.println("Player " + ((playerturn == X) ? 'X' : 'O') + " wins!");
+                break;
+            }         
+            if (playerturn == X) {
+                playerXThread.run();
+            } else {
+                playerOThread.run();
+            }
             playerturn = (playerturn == X) ? O : X;
+            System.out.println("turns: " + (++turns));
+             System.out.println();
+            System.out.println("Next turn: Player " + ((playerturn == X) ? 'X' : 'O'));
+            printBoard();
+            System.out.println();
+
         }        
     }
 
 
+    public Game(){
+
+        for (int i = 0; i < 5; i++) 
+        Arrays.fill(board[i], ' ');
+
+    }
+
+
+    public GameWithPlayer(Player temp, char symbol) {
+        if(symbol == 'X'){
+            this.X = new UserPlayer('X', this);
+            this.O=new SelfPlayer('O', this);
+            Thread playerOThread = new Thread(O);
+        }
+        else
+        {
+            this.O = new UserPlayer('O', this);
+            this.X=new SelfPlayer('X', this);
+            Thread playerXThread = new Thread(X);
+        }
+
+        this.playerturn = X;
+
+        for (int i = 0; i < 5; i++) 
+        Arrays.fill(board[i], ' ');
+
+        int turns = 0;
+
+
+        while (true) {
+            double[] freeCells = getFreeCells();
+            if (freeCells.length == 0) {
+                System.out.println("Draw!");
+                break;
+            }
+            if (Checkwin()) {
+                System.out.println("Player " + ((playerturn == X) ? 'X' : 'O') + " wins!");
+                break;
+            }         
+            
+            playerturn = (playerturn == X) ? O : X;
+            System.out.println("turns: " + (++turns));
+             System.out.println();
+            System.out.println("Next turn: Player " + ((playerturn == X) ? 'X' : 'O'));
+            printBoard();
+            System.out.println();
+
+        }  
+    }
+
+  
+    public boolean Checkwin(){
+      final int SIZE = 5;
+      final int WIN = 4;
+
+     int[][] directions = {
+        {0, 1},
+        {1, 0},
+        {1, 1},
+        {1, -1}
+    };
+
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            char current = board[row][col];
+
+            // skip empty cells
+            if (current != 'X' && current != 'O') continue;
+
+            for (int[] d : directions) {
+                int dr = d[0], dc = d[1];
+                boolean win = true;
+
+                for (int i = 1; i < WIN; i++) {
+                    int r = row + dr * i;
+                    int c = col + dc * i;
+
+                    if (r < 0 || r >= SIZE || c < 0 || c >= SIZE
+                        || board[r][c] != current) {
+                        win = false;
+                        break;
+                    }
+                }
+
+                if (win) return true;
+            }
+        }
+    }
+    return false;
+    }
    
     public void printBoard() {
         for (int i = 0; i < 5; i++) {
@@ -51,8 +146,8 @@ public class Game implements Runnable {
         }
     }
 
-     public Player getTurn(){
-         return null;
+     public char getTurn(){
+         return playerturn == X ? 'X' : 'O';
         }
 
         public double[] getFreeCells(){
