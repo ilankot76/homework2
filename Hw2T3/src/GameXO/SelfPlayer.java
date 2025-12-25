@@ -1,8 +1,8 @@
-package XO;
+package GameXO;
 
-public class UserPlayer extends Player {
-    
-    public UserPlayer(char symbol, Game game) {
+public class SelfPlayer extends Player {
+
+    public SelfPlayer(char symbol, Game game) {
         super(symbol, game);
     }
 

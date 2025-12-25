@@ -1,4 +1,4 @@
-package XO;
+package GameXO;
 
 public abstract  class Player implements  Runnable {
     protected  char symbol;

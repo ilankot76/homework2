@@ -1,4 +1,4 @@
-package XO;
+package GameXO;
 
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ public class Game implements Runnable {
     private Player X;
     private Player O;
 
-    
+
     public Game(){
         for (int i = 0; i < 5; i++) 
      Arrays.fill(board[i], ' ');
@@ -21,8 +21,22 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        
+        while (true) {
+            printBoard();
+            double[] freeCells = getFreeCells();
+            if (freeCells.length == 0) {
+                System.out.println("Draw!");
+                break;
+            }
+            // Here you would typically get the move from the current player
+            // For demonstration, we'll just pick the first free cell
+            double move = freeCells[0];
+            int row = (int) move;
+            int col = (int) ((move - row) * 10);
+            board[row][col] = (playerturn == X) ? 'X' : 'O';
+            // Switch turns
+            playerturn = (playerturn == X) ? O : X;
+        }        
     }
 
 
