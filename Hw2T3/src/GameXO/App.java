@@ -7,9 +7,9 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         Game game = new Game();
-        SelfPlayer X = new SelfPlayer('X', game);
-        SelfPlayer O = new SelfPlayer('O', game);
-        game.startGameWithAI(X, O);
+        SelfPlayer ai = new SelfPlayer('O', game);
+        game.StartGameWithUser(ai, 'X');
 
+        scanner.close();
     }
 }

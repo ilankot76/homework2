@@ -37,11 +37,13 @@ public class Game {
     public synchronized void setWinner(char w) {
         winner = w;
         gameOver = true;
+        notifyAll();
     }
 
     public synchronized void setDraw() {
         winner = '?';
         gameOver = true;
+        notifyAll();
     }
 
     public synchronized void switchTurn() {
@@ -119,6 +121,15 @@ public class Game {
         return false;
     }
 
+    public synchronized void printBoard() {
+        for (int r = 0; r < SIZE; r++) {
+            for (int c = 0; c < SIZE; c++) {
+                System.out.print(board[r][c] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     public void startGameWithAI(Player X, Player O) {
         this.X = X;
         this.O = O;
@@ -151,12 +162,46 @@ public class Game {
         }
     }
 
-    public synchronized void printBoard() {
-        for (int r = 0; r < SIZE; r++) {
-            for (int c = 0; c < SIZE; c++) {
-                System.out.print(board[r][c] + " ");
-            }
-            System.out.println();
+    public void StartGameWithUser(Player T, char symbol) {
+        if (symbol == 'X') {
+            this.X = new UserPlayer('X', this);
+            this.O = T;
+            this.playerturn = X;
+
+        } else {
+            this.O = new UserPlayer('O', this);
+            this.X = T;
+            this.playerturn = X;
+
         }
+        this.playerturn = X;
+        this.gameOver = false;
+        this.winner = '?';
+
+        Thread ai = new Thread(X);
+        Thread user = new Thread(O);
+
+        ai.start();
+        user.start();
+
+        synchronized (this) {
+            while (!gameOver) {
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        }
+
+        printBoard();
+        if (winner == 'X' || winner == 'O') {
+            System.out.println("Player " + winner + " wins!");
+        } else {
+            System.out.println("Draw!");
+        }
+
     }
+
 }

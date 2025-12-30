@@ -19,6 +19,15 @@ public class UserPlayer extends Player {
                 if (game.isGameOver())
                     return;
 
+                while (!game.isGameOver() && game.getTurn() != symbol) {
+                    try {
+                        game.wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+
                 int r, c;
                 while (true) {
                     System.out.print("Enter row (0-4): ");
@@ -32,16 +41,22 @@ public class UserPlayer extends Player {
                     }
                     System.out.println("Invalid cell, try again.");
                 }
+                    game.input(r, c, getSymbol());
 
-                board[r][c] = getSymbol();
-                game.printBoard();
+                    game.printBoard();
 
-                if (game.checkWin(getSymbol())) {
-                    System.out.println("Winner: " + getSymbol());
-                    return;
-                }
-
-                game.switchTurn();
+                    if (game.checkWin(getSymbol())) {
+                        game.setWinner(getSymbol());
+                        game.notifyAll();
+                        return;
+                    }
+                    if (game.isBoardFull()) {
+                        game.setDraw();
+                        game.notifyAll();
+                        return;
+                    }
+                        game.switchTurn();
+                        game.notifyAll();
             }
         }
 

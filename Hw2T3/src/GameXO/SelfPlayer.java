@@ -50,7 +50,7 @@ public class SelfPlayer extends Player {
                 }
 
                 try {
-                    Thread.sleep(500); // Pause for half a second to simulate thinking
+                    Thread.sleep(1000); // Pause for half a second to simulate thinking
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     return;
