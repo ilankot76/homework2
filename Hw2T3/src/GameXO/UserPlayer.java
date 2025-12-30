@@ -12,10 +12,11 @@ public class UserPlayer extends Player {
 
     @Override
     public void run() {
+        char[][] board = game.GetBoard();
         while (true) {
 
             synchronized (game) {
-                if (game.checkWin())
+                if (game.isGameOver())
                     return;
 
                 int r, c;
@@ -26,16 +27,16 @@ public class UserPlayer extends Player {
                     c = scanner.nextInt();
 
                     if (r >= 0 && r < 5 && c >= 0 && c < 5 &&
-                            game.board()[r][c] == ' ') {
+                            board[r][c] == '-') {
                         break;
                     }
                     System.out.println("Invalid cell, try again.");
                 }
 
-                game.board()[r][c] = getSymbol();
+                board[r][c] = getSymbol();
                 game.printBoard();
 
-                if (game.checkWin()) {
+                if (game.checkWin(getSymbol())) {
                     System.out.println("Winner: " + getSymbol());
                     return;
                 }
